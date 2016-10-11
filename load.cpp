@@ -2,7 +2,7 @@
 #include <highgui.h>
 #include <iostream>
 #include "mat.h"
-#include "matIP.cpp"
+#include "matIP.h"
 int main(){
 	using namespace cv;
 	Mat img=imread("img_0000_abs_smooth.png");

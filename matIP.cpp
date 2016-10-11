@@ -7,17 +7,8 @@
 #include <opencv2/opencv.hpp>
 #include "mat.h"
 #include <iostream>
+#include "matIP.h"
 using namespace cv;
-class Image{
-	//various channels
-public:
-	mat <int>ch0;
-	mat <int>ch1;
-	mat <int>ch2;
-	bool rgb;
-	Image(): ch0(1,1){}
-
-};
 void loadMat(Mat &img,Image &m,bool rgb){
 	int r=m.ch0.row,c=m.ch0.col,i,j;
 	if(rgb){
