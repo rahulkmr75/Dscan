@@ -1,21 +1,19 @@
 #include <opencv2/opencv.hpp>
+#include <highgui.h>
 #include <iostream>
 #include "mat.h"
 #include "matIP.cpp"
 int main(){
 	using namespace cv;
 	Mat img=imread("img_0000_abs_smooth.png");
-	namedWindow("original",1);
-	imshow("original",img);
-	Vec3b col=img.at<Vec3b>(Point(10,10));
-	unsigned char r,g,b;
-	r=col.val[0];
-	g=col.val[1];
-	b=col.val[2];
-	std::cout<<(int)r<<g<<b<<img.rows<<img.cols<<std::endl;
+	Mat img2=imread("img_0000.png");
+	Mat dst,gr(img.rows,img.cols,CV_8UC1);
+	pyrDown(img2,dst,Size(img.cols/2,img.rows/2));
+	cvtColor(img2,dst,CV_BGR2GRAY);
 	Image m;
-	loadImage(img,m,true);
-	m.ch1.print();
+	loadImage(dst,m,false);
+	loadMat(gr,m,false);
+	imshow("check",gr);imshow("img",dst);
 	waitKey(0);
 	return 0;
 }	

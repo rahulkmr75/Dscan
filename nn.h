@@ -1,5 +1,6 @@
 #include <iostream>
 #include "mat.h"
+#include "fmat.h"
 #ifndef NETWORK_H_
 #define NETWORK_H_
 /************************************************************************
@@ -26,17 +27,27 @@ fuction of the mat instance.
 mat<double>** initNetwork(const int layers,const int *nodes){
 	mat<double> **weights=new mat<double>*[layers];
 	int i,j;
-	weights[0]=new mat<double>(nodes[0],1);
-	weights[0]->ones();
+	weights[0]=new mat<double>(nodes[0],1);weights[0]->ones();
 	for (i=1;i<layers;i++){
 		weights[i]=new mat<double>(nodes[i],nodes[i-1]);
 		weights[i]->zeros();
 	}
 	return weights;
 }
-//does backpropagation once considering the input and the output vector
-//out is the output by the neural net and y is the desired result
-void backPropagation(mat<double> **weights,mat<Tp1> &x,mat<double> **out,const double y){
+void trainlayer(){};
 
+//this function write the weights to txt file
+//in the order of the matrix present in 
+//mat<double> **weights
+void writeWeights(mat<double> **weights,int layers){
+	char name[15]="layer_01.txt";
+	for(int i=1;i<=layers;i++){
+		name[7]=48+i;
+		writemat(*(weights[i-1]),name);
+	}
+}
+//it loads the weights in the matrix object
+//and returns mat<double> **
+void loadWeights(char **files){
 }
 #endif
