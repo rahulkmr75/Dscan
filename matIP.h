@@ -1,3 +1,5 @@
+#ifndef MATIP_H_
+#define MAT_H_
 class Image{
 	//various channels
 public:
@@ -10,3 +12,4 @@ public:
 };
 void loadImage(cv::Mat &,Image &,bool);
 void loadMat(cv::Mat &,Image &,bool);
+#endif

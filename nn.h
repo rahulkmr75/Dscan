@@ -1,6 +1,3 @@
-#include <iostream>
-#include "mat.h"
-#include "fmat.h"
 #ifndef NETWORK_H_
 #define NETWORK_H_
 /************************************************************************
@@ -22,32 +19,19 @@ has one weight per node for the first layer, the nodes of the following layer
 have weights with dimension equal to no.of nodes in the previous layer.
 one can explicitly change the weights by calling zeros, ones , or initialize
 fuction of the mat instance.
+CAUTION - be careful while using this method you might loose the trained data
 */	
 
-mat<double>** initNetwork(const int layers,const int *nodes){
-	mat<double> **weights=new mat<double>*[layers];
-	int i,j;
-	weights[0]=new mat<double>(nodes[0],1);weights[0]->ones();
-	for (i=1;i<layers;i++){
-		weights[i]=new mat<double>(nodes[i],nodes[i-1]);
-		weights[i]->zeros();
-	}
-	return weights;
-}
-void trainlayer(){};
+mat<double> **initNetwork(const int layers,const int *nodes);
+mat<double> **initBias(const int layers,const int *nodes){
 
-//this function write the weights to txt file
-//in the order of the matrix present in 
-//mat<double> **weights
-void writeWeights(mat<double> **weights,int layers){
-	char name[15]="layer_01.txt";
-	for(int i=1;i<=layers;i++){
-		name[7]=48+i;
-		writemat(*(weights[i-1]),name);
-	}
-}
-//it loads the weights in the matrix object
-//and returns mat<double> **
-void loadWeights(char **files){
-}
+//this method computes the ouput vector for give input ,weights, bias	
+void computeOutputs(mat<double> **weights,mat<double> **out,mat<double> **bias,mat<int> &x,int layers);
+
+//it writes the matrix and bias to the file names given
+void writeWeights(mat<double> **weights,mat<double> **bias,char **fileweights,char **fileweights,int layers);
+
+//it loads  the learned data from the file
+void loadWeights(mat<double> **weights,mat<double> **bias,char **fileweights,char **filebias,int layers);
+	
 #endif

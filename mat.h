@@ -123,7 +123,7 @@ public:
                         throw "BadArgumentsDimensions";
 
                 }
-                mat<T> c(row,b.col);
+                mat<T> c(row,b.col,true);
                 int i,j,k;
                 T sum;
                 for (i=0;i<row;i++){
@@ -141,7 +141,7 @@ public:
 	//FORMAT SHOULD BE MAT*SCALAR
 	//the return type is always mat<double> no matter what	
 	mat operator*(const double d){
-		mat<double> c(row,col);
+		mat<double> c(row,col,true);
 		int i,j;
 		for (i=0;i<row;i++){
 			for (j=0;j<col;j++){
@@ -156,12 +156,12 @@ public:
 			cout<<"matrix addition not possible : unequal dimensions\n";
 			throw "BadArgumentsDimensions";
 		}
-		mat<T> c(row,col);
+		mat<T> c(row,col,true);
 		int i,j;
 		for (i=0;i<row;i++){
 			for (j=0;j<col;j++)c.a[i][j]=a[i][j]+b.a[i][j];
 		}
-		return &c;
+		return c;
 	}
 	//subtracts two matrix if possible
 	mat operator-(mat<T> &b){
@@ -169,11 +169,11 @@ public:
 			cout<<"matrix addition not possible : unequal dimensions\n";
                         throw "BadArgumentsDimensions";
 		}
-                mat<T> c(row,col);
+                mat<T> c(row,col,true);
                 int i,j;
                 for (i=0;i<row;i++){
                         for (j=0;j<col;j++)c.a[i][j]=a[i][j]-b.a[i][j];
-                }return &c;
+                }return c;
         }
 
 	//inverts a matrix and stores in the param provided
@@ -309,7 +309,7 @@ void add(mat<Tp1> &a,mat<Tp2> &b,mat<Tp3> &c){
 		cout<<"matrix multiplication not possible col(mat1)!=row(mat2)\n";
 		throw "BadArgumentsDimensions";
 	}
-	if(c.row!=a.row || c.col!=b.col)c.rellocate(a.row,a.col);
+	if(c.row!=a.row || c.col!=b.col)c.reallocate(a.row,a.col);
 	int i,j;
 	for (i=0;i<a.row;i++){
 		for(j=0;j<a.col;j++){
@@ -317,7 +317,19 @@ void add(mat<Tp1> &a,mat<Tp2> &b,mat<Tp3> &c){
 		}
 	}
 }
-
+//similar to hadamard product
+template <typename Tp1,typename Tp2,typename Tp3>
+void correlate(mat<Tp1> &m1,mat<Tp2> &m2,mat<Tp3> &out){
+	if(m1.row!=m2.row || m2.col!=m1.col){
+		cout<<"hadamard prouct not passible : improper matrix dimension\n";
+		throw "BadArgumentsDimensions";
+	}
+	if(out.row!=m1.row || out.col!=m1.col)out.reallocate(m1.row,m1.col);
+	int i,j;
+	for(i=0;i<m1.row;i++){
+		for(j=0;j<m1.col;j++)out.a[i][j]=m1.a[i][j]*m2.a[i][j];
+	}
+}
 //tranposes the object matrix and returns a mat object
 template <typename Tp1,typename Tp2>
 void transpose(mat<Tp1> &m,mat<Tp2> &tr){
