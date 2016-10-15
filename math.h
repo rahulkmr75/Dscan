@@ -38,7 +38,7 @@ public:
 		double x;
 		if (xt>2*PI)x=abs(xt)-(floor(xt/2/PI))*2*PI;
 		else x=xt;
-		cout<<x<<"\n";
+
 		double pv,nv=0,xpow=x;
 		int n=1,fact=1;
 		do{

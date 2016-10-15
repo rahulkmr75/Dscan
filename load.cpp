@@ -16,4 +16,4 @@ int main(){
 	imshow("check",gr);imshow("img",dst);
 	waitKey(0);
 	return 0;
-}	
+}

@@ -1,4 +1,5 @@
 #include "mat.h"
+#include <fstream>
 #include <opencv2/opencv.hpp>
 #include "matIP.h"
 void makeVector(Image &m1,Image &m2,Image &m3,mat<int> &vec, int x,int y){
@@ -28,3 +29,27 @@ void makeVector(Image &m1,Image &m2,Image &m3,mat<int> &vec, int x,int y){
 		}
 	}
 }
+char **getWFileNames(char *name){
+	ifstream file(name);
+	char **wfiles=new char *[4];
+	for(int i=0;i<4;i++){
+		wfiles[i]=new char[30];
+		file>>wfiles[i];
+	}	
+	return wfiles;
+}
+char **getBFileNames(char *name){
+	ifstream file(name);
+	char **bfiles=new char *[4];
+	for(int i=0;i<8;i++){
+		bfiles[i-4]=new char[30];
+		if(i>3)file>>bfiles[i-4];
+	}
+	return bfiles;
+}
+void makeOutput(mat<double> **output){
+	output[0]=new mat<double>(750,1);
+	output[1]=new mat<double>(64,1);
+	output[2]=new mat<double>(255,1);
+	output[3]=new mat<double>(1,1);
+}	

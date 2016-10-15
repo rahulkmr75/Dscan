@@ -1,9 +1,3 @@
-/*
-	this file has some linking functions from opencv libraries to 
-	mat header library like loading images to struct Image   etc.
-	THIS LIBRARY DEPENDS ON OPENCV LIBRARY ESPECIALLY Mat LIBRARY
-	AS WELL AS THE mat HEADER FILE.
-*/
 #include <opencv2/opencv.hpp>
 #include "mat.h"
 #include <iostream>

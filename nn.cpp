@@ -1,4 +1,5 @@
 #include <iostream>
+#include <cmath>
 #include "mat.h"
 #include "fmat.cpp"
 #define alpha1 1.0e-05
@@ -13,12 +14,24 @@ mat<double> **initNetwork(const int layers,const int *nodes){
 		weights[i]=new mat<double>(nodes[i],nodes[i-1]);
 		weights[i]->zeros();
 	}
+	std::cout<<"network initialized\n";
 	return weights;
 }
 mat<double> **initBias(const int layers,const int *nodes){
 	//only the wo hidden layers have a bias
 	mat<double> **bias=new mat<double>*[layers];
-	for(int i=0;i<layers-1;i++)bias[i-1]=new mat<double>(nodes[i],1);
+	for(int i=0;i<layers;i++){
+		bias[i]=new mat<double>(nodes[i],1);
+		bias[i]->zeros();
+	}
+	cout<<"bias initalized\n";
+	return bias;
+}
+void activate(mat<double> *out){
+	int i,j;
+	for (i=0;i<out->row;i++){
+		for(j=0;j<out->col;j++)out->a[i][j]=1/(1+exp(-1*out->a[i][j]));
+	}
 }
 void computeOutputs(mat<double> **weights,mat<double> **out,mat<double> **bias,mat<int> &x,int layers){
 	//the first layer make the input vector available to all the nodes
@@ -28,9 +41,12 @@ void computeOutputs(mat<double> **weights,mat<double> **out,mat<double> **bias,m
 	for(i=1;i<layers;i++){
 		multiply<double,double,double>(*(weights[i]),*(out[i-1]),*(out[i]));
 		add<double,double,double>(*(out[i]),*(bias[i]),*(out[i]));
+		if(i==2){
+			activate(out[2]);
+		}
 	}	
 }
-void backProp(mat<double> **weights,mat<double> **bias,mat<double> **out,mat<int> x,double error){
+void backProp(mat<double> **weights,mat<double> **bias,mat<double> **out,mat<int> &x,double error){
 	//b3=b3-alpha1*(a4-y)(a3.(1-a3))
 	mat<double>a3dot_(255,1,true);
 	mat<double>one_(255,1,true);mat<double>one_a3(255,1,true);

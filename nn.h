@@ -23,13 +23,19 @@ CAUTION - be careful while using this method you might loose the trained data
 */	
 
 mat<double> **initNetwork(const int layers,const int *nodes);
-mat<double> **initBias(const int layers,const int *nodes){
+mat<double> **initBias(const int layers,const int *nodes);
+
+//this method activates a matrix using the sigmoid function
+void activate(mat<double> *out);
 
 //this method computes the ouput vector for give input ,weights, bias	
 void computeOutputs(mat<double> **weights,mat<double> **out,mat<double> **bias,mat<int> &x,int layers);
 
+//a backpropagation method
+void backProp(mat<double> **,mat<double> **,mat<double> **,mat<int> &,double);
+
 //it writes the matrix and bias to the file names given
-void writeWeights(mat<double> **weights,mat<double> **bias,char **fileweights,char **fileweights,int layers);
+void writeWeights(mat<double> **weights,mat<double> **bias,char **fileweights,char **filebias,int layers);
 
 //it loads  the learned data from the file
 void loadWeights(mat<double> **weights,mat<double> **bias,char **fileweights,char **filebias,int layers);
