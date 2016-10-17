@@ -17,20 +17,24 @@ int main(){
 	ifstream depth_f("depth_files.txt");
 	
 	//string array data that stores the name of weight and bias file
-	char **listw=getWFileNames("wbfiles.txt");
-	char **listb=getBFileNames("wbfiles.txt");
+	char **listw=getWFileNames("webi/wfiles.txt");
+	char **listb=getBFileNames("webi/bfiles.txt");
 
+	cout<<listw[0]<<listw[1]<<listw[2]<<listw[3];
 	//initializes the weights and bias with 0's and 1's
 	int *nodes=new int[4];
 	nodes[0]=750;nodes[1]=64;nodes[2]=255;nodes[3]=1;
 	mat<double> **weights=initNetwork(4,nodes);
 	mat<double> **bias=initBias(4,nodes);
+	loadWeights(weights,bias,listw,listb,4);
+
 	
-	//assigning the saved data
-	loadWeights(weights,bias,listw,listw,4);
+	/*//assigning the saved data
 	mat<double> **output=new mat<double> *[4];
 	makeOutput(output);
-
+	
+	//cout<<bias[0]->row<<bias[0]->col;
+	
 	//name says it all ;-p
 	Image m_imgrgb1,m_imgd1,m_imgrgb2,m_imgrgb3;
 	Mat imgrgb2,imgrgb3;
@@ -55,8 +59,11 @@ int main(){
 		mat<int> x(750,1,true);
 		for(int i=20;i<620;i++){
 			for(int j=20;j<460;j++){
+				//making a vector for input 
 				makeVector(m_imgrgb1,m_imgrgb2,m_imgrgb3,x,i,j);
+				
 				computeOutputs(weights,output,bias,x,4);
+				//output[0]->print();
 				double err=output[3]->a[0][0]-m_imgd1.ch0.a[i][j];
 				backProp(weights,bias,output,x,err);
 				cout<<"error : "<<err<<"\n";
@@ -68,6 +75,6 @@ int main(){
 		cout<<"writing files to webi/bias_0.....\n";
 		writeWeights(weights,bias,listw,listb,4);
 		cout<<"Done writing\nloading next image\n";			
-	}
+	}*/
 	return 0;
 }

@@ -35,9 +35,9 @@ void loadImage(Mat &img,Image &m,bool rgb){
 		for(i=0;i<r;i++){
 			for(j=0;j<c;j++){
 				Vec3b intensity=img.at<Vec3b>(Point(j,i));
-				m.ch0.a[i][j]=intensity.val[0];
-				m.ch1.a[i][j]=intensity.val[1];
-				m.ch2.a[i][j]=intensity.val[2];
+				m.ch0.a[i][j]=(int)intensity.val[0];
+				m.ch1.a[i][j]=(int)intensity.val[1];
+				m.ch2.a[i][j]=(int)intensity.val[2];
 			}
 		}
 	}
@@ -48,7 +48,7 @@ void loadImage(Mat &img,Image &m,bool rgb){
 		for(i=0;i<r;i++){
 			for(j=0;j<c;j++){
 				Scalar intensity=img.at<uchar>(Point(j,i));
-				m.ch0.a[i][j]=intensity.val[0];
+				m.ch0.a[i][j]=(int)intensity.val[0];
 			 }
 		}
 	}

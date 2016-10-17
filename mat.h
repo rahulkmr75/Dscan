@@ -79,7 +79,7 @@ public:
 	//into the one one provided as a parameter 
 	template <typename U>
 	void copy(mat<U> &b){
-		b.reallocate(row,col);
+		if(row!=b.row ||col!=b.col)b.reallocate(row,col);
 		int i,j;
 		for (i=0;i<row;i++){
 			for (j=0;j<col;j++){
@@ -97,6 +97,11 @@ public:
 	void ones(){
 		for(int i=0;i<row;i++){
 			for(int j=0;j<col;j++)a[i][j]=1;
+		}
+	}
+	void scale(const double d){
+		for(int i=0;i<row;i++){
+			for(int j=0;j<col;j++)a[i][j]=d*a[i][j];
 		}
 	}
 	//creates an identity matrix and stores in the matrix
@@ -140,7 +145,7 @@ public:
 	//multiplies the matrix with a scalar 
 	//FORMAT SHOULD BE MAT*SCALAR
 	//the return type is always mat<double> no matter what	
-	mat operator*(const double d){
+	mat<double> operator*(const double d){
 		mat<double> c(row,col,true);
 		int i,j;
 		for (i=0;i<row;i++){
@@ -306,7 +311,7 @@ void multiply(mat<Tp1> &a,mat<Tp2> &b,mat<Tp3> &c){
 template <typename Tp1,typename Tp2,typename Tp3>
 void add(mat<Tp1> &a,mat<Tp2> &b,mat<Tp3> &c){
 	if(a.row!=b.row || a.col!=b.col){
-		cout<<"matrix multiplication not possible col(mat1)!=row(mat2)\n";
+		cout<<"matrix addition not possible col(mat1)!=row(mat2)\n";
 		throw "BadArgumentsDimensions";
 	}
 	if(c.row!=a.row || c.col!=b.col)c.reallocate(a.row,a.col);
@@ -314,6 +319,20 @@ void add(mat<Tp1> &a,mat<Tp2> &b,mat<Tp3> &c){
 	for (i=0;i<a.row;i++){
 		for(j=0;j<a.col;j++){
 			c.a[i][j]=a.a[i][j]+b.a[i][j];
+		}
+	}
+}
+template <typename Tp1,typename Tp2,typename Tp3>
+void subtract(mat<Tp1> &a,mat<Tp2> &b,mat<Tp3> &c){
+	if(a.row!=b.row || a.col!=b.col){
+		cout<<"matrix addition not possible col(mat1)!=row(mat2)\n";
+		throw "BadArgumentsDimensions";
+	}
+	if(c.row!=a.row || c.col!=b.col)c.reallocate(a.row,a.col);
+	int i,j;
+	for (i=0;i<a.row;i++){
+		for(j=0;j<a.col;j++){
+			c.a[i][j]=a.a[i][j]-b.a[i][j];
 		}
 	}
 }
@@ -333,7 +352,7 @@ void correlate(mat<Tp1> &m1,mat<Tp2> &m2,mat<Tp3> &out){
 //tranposes the object matrix and returns a mat object
 template <typename Tp1,typename Tp2>
 void transpose(mat<Tp1> &m,mat<Tp2> &tr){
-	if(m.row!=tr.row || m.col!=tr.col)tr.reallocate(m.row,m.col);
+	if(m.row!=tr.col || m.col!=tr.row)tr.reallocate(m.col,m.row);
 	int i,j;
 	for (i=0;i<m.row;i++){
 		for (j=0;j<m.col;j++){

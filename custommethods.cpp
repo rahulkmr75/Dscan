@@ -1,4 +1,5 @@
 #include "mat.h"
+#include <iostream>
 #include <fstream>
 #include <opencv2/opencv.hpp>
 #include "matIP.h"
@@ -10,21 +11,23 @@ void makeVector(Image &m1,Image &m2,Image &m3,mat<int> &vec, int x,int y){
 			vec.a[tr++][0]=m1.ch0.a[i][j];
 			vec.a[tr++][0]=m1.ch1.a[i][j];
 			vec.a[tr++][0]=m1.ch2.a[i][j];
+			
+
 		}
 	}
-	int x1=x*32/63,y1=23/7*y;
+	int x1=x*32/63,y1=y*23/47;
 	for(i=x1-4;i<x1+5;i++){
 		for(j=y1-4;j<y1+5;j++){
 			vec.a[tr++][0]=m2.ch0.a[i][j];
-			vec.a[tr++][0]=m2.ch2.a[i][j];
+			vec.a[tr++][0]=m2.ch1.a[i][j];
 			vec.a[tr++][0]=m2.ch2.a[i][j];
 		}
 	}
-	x1=x*15/63;y1=11/47*y;
+	x1=x*15/63;y1=y*11/47;
 	for(i=x1-4;i<x1+5;i++){
 		for(j=y1-4;j<y1+5;j++){
 			vec.a[tr++][0]=m3.ch0.a[i][j];
-			vec.a[tr++][0]=m3.ch2.a[i][j];
+			vec.a[tr++][0]=m3.ch1.a[i][j];
 			vec.a[tr++][0]=m3.ch2.a[i][j];
 		}
 	}
@@ -41,9 +44,9 @@ char **getWFileNames(char *name){
 char **getBFileNames(char *name){
 	ifstream file(name);
 	char **bfiles=new char *[4];
-	for(int i=0;i<8;i++){
-		bfiles[i-4]=new char[30];
-		if(i>3)file>>bfiles[i-4];
+	for(int i=0;i<4;i++){
+			bfiles[i]=new char[30];
+			file>>bfiles[i];
 	}
 	return bfiles;
 }
