@@ -20,7 +20,7 @@ int main(){
 	char **listw=getWFileNames("webi/wfiles.txt");
 	char **listb=getBFileNames("webi/bfiles.txt");
 
-	cout<<listw[0]<<listw[1]<<listw[2]<<listw[3];
+	//cout<<listw[0]<<listw[1]<<listw[2]<<listw[3];
 	//initializes the weights and bias with 0's and 1's
 	int *nodes=new int[4];
 	nodes[0]=750;nodes[1]=64;nodes[2]=255;nodes[3]=1;
@@ -29,7 +29,7 @@ int main(){
 	loadWeights(weights,bias,listw,listb,4);
 
 	
-	/*//assigning the saved data
+	//assigning the saved data
 	mat<double> **output=new mat<double> *[4];
 	makeOutput(output);
 	
@@ -57,24 +57,26 @@ int main(){
 		
 		//computation part
 		mat<int> x(750,1,true);
-		for(int i=20;i<620;i++){
-			for(int j=20;j<460;j++){
+		for(int i=20;i<460;i++){
+			for(int j=20;j<620;j++){
 				//making a vector for input 
 				makeVector(m_imgrgb1,m_imgrgb2,m_imgrgb3,x,i,j);
 				
 				computeOutputs(weights,output,bias,x,4);
+				//output[1]->scale(0.00001);			
 				//output[0]->print();
 				double err=output[3]->a[0][0]-m_imgd1.ch0.a[i][j];
 				backProp(weights,bias,output,x,err);
 				cout<<"error : "<<err<<"\n";
 			}
 		cout<<"computation done on row : "<<i<<"\n";
+		writeWeights(weights,bias,listw,listb,4);
 		}
 		cout<<"stochastic descent completed on image : "<<namergb<<"\n";
 		cout<<"writing files to webi/layer_0....\n";
 		cout<<"writing files to webi/bias_0.....\n";
 		writeWeights(weights,bias,listw,listb,4);
 		cout<<"Done writing\nloading next image\n";			
-	}*/
+	}
 	return 0;
 }

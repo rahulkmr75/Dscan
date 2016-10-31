@@ -29,4 +29,5 @@ template <typename Tp1>void readmat(mat<Tp1> &m,char *name){
 		}
 	}
 	else cout<<"file does not exist\n";
+	file.close();
 }

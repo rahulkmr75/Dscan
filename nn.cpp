@@ -2,17 +2,17 @@
 #include <cmath>
 #include "mat.h"
 #include "fmat.cpp"
-#define alpha1 1.0e-05
-#define alpha2 1.0e-05
-#define alpha3 1.0e-05
-#define alpha4 1.0e-05
+#define alpha1 1.0e-07
+#define alpha2 1.0e-07
+#define alpha3 1.0e-07
+#define alpha4 1.0e-07
 mat<double> **initNetwork(const int layers,const int *nodes){
 	mat<double> **weights=new mat<double>*[layers];
 	int i,j;
 	weights[0]=new mat<double>(nodes[0],1);weights[0]->ones();
 	for (i=1;i<layers;i++){
 		weights[i]=new mat<double>(nodes[i],nodes[i-1]);
-		weights[i]->zeros();
+		weights[i]->ones();
 	}
 	weights[3]->ones();
 	std::cout<<"network initialized\n";
@@ -23,7 +23,7 @@ mat<double> **initBias(const int layers,const int *nodes){
 	mat<double> **bias=new mat<double>*[layers];
 	for(int i=0;i<layers;i++){
 		bias[i]=new mat<double>(nodes[i],1);
-		bias[i]->zeros();
+		bias[i]->ones();
 	}
 	cout<<"bias initalized\n";
 	return bias;
@@ -31,7 +31,7 @@ mat<double> **initBias(const int layers,const int *nodes){
 void activate(mat<double> *out){
 	int i,j;
 	for (i=0;i<out->row;i++){
-		for(j=0;j<out->col;j++)out->a[i][j]=1/(1+exp(-1*out->a[i][j]));
+		for(j=0;j<out->col;j++)out->a[i][j]=1/(1+exp(-1.0e-06*out->a[i][j]));
 	}
 }
 void computeOutputs(mat<double> **weights,mat<double> **out,mat<double> **bias,mat<int> &x,int layers){
@@ -50,6 +50,7 @@ void computeOutputs(mat<double> **weights,mat<double> **out,mat<double> **bias,m
 void backProp(mat<double> **weights,mat<double> **bias,mat<double> **out,mat<int> &x,double error){
 	//b3=b3-alpha1*(a4-y)(a3.(1-a3))
 	mat<double>a3dot_(255,1);
+	out[2]->copy<double>(a3dot_);
 	mat<double>one_(255,1);
 	mat<double>one_a3(255,1);
 	one_.ones();
@@ -65,7 +66,7 @@ void backProp(mat<double> **weights,mat<double> **bias,mat<double> **out,mat<int
 	mat<double>a2_T(out[1]->col,out[1]->row);
 	transpose<double,double>(*(out[1]),a2_T);
 	mat<double>desw3(255,64);
-	multiply<double,double,double>(a3dot_k,a2_T,desw3);	
+	multiply<double,double,double>(a3dot_k,a2_T,desw3);
 	subtract<double,double,double>(*(weights[2]),desw3,*(weights[2]));
 	
 	//b2=b2-alpha3(a4-y)(w3_T*a3dot_)

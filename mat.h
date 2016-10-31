@@ -90,13 +90,13 @@ public:
 	//fills the matrix with zero
 	void zeros(){
 		for(int i=0;i<row;i++){
-			for(int j=0;j<col;j++)a[i][j]=0;
+			for(int j=0;j<col;j++)a[i][j]=0.0;
 		}
 	}
 	//fills the matrix with one
 	void ones(){
 		for(int i=0;i<row;i++){
-			for(int j=0;j<col;j++)a[i][j]=1;
+			for(int j=0;j<col;j++)a[i][j]=1.0;
 		}
 	}
 	void scale(const double d){
