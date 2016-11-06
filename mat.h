@@ -1,6 +1,8 @@
 #ifndef MAT_H_
 #define MAT_H_
 #include <iostream>
+#include <cstdlib>
+#include <ctime>
 using namespace std;
 template <class T>
 class mat{
@@ -99,6 +101,20 @@ public:
 			for(int j=0;j<col;j++)a[i][j]=1.0;
 		}
 	}
+	void random(const double min,const double max){
+		//the slope of the line
+		double m=(max-min)/999.0;
+		//for the real random numbers
+		srand((unsigned)time(NULL));
+		int i,j;
+		for (i=0;i<row;i++){
+			for(j=0;j<col;j++){
+				int temp=rand()%1000;
+				a[i][j]=m*temp+min;
+			}
+		}
+	}
+			
 	void scale(const double d){
 		for(int i=0;i<row;i++){
 			for(int j=0;j<col;j++)a[i][j]=d*a[i][j];
@@ -124,27 +140,27 @@ public:
 	//multiplies two matrix of same data types
 	mat operator*(mat<T> &b){
 		if(col!=b.row){
-                        cout<<"matrix multiplication not possible col(mat1)!=row(mat2)\n";
-                        throw "BadArgumentsDimensions";
+						cout<<"matrix multiplication not possible col(mat1)!=row(mat2)\n";
+						throw "BadArgumentsDimensions";
 
-                }
-                mat<T> c(row,b.col,true);
-                int i,j,k;
-                T sum;
-                for (i=0;i<row;i++){
-                        for(j=0;j<b.col;j++){
-                                sum=0.0;
-                                for(k=0;k<col;k++){
-                                        sum+=a[i][k]*b.a[k][j];
-                                }
-                                c.a[i][j]=sum;
-                        }
-                }
-                return c;
-        }
+				}
+				mat<T> c(row,b.col,true);
+				int i,j,k;
+				T sum;
+				for (i=0;i<row;i++){
+						for(j=0;j<b.col;j++){
+								sum=0.0;
+								for(k=0;k<col;k++){
+										sum+=a[i][k]*b.a[k][j];
+								}
+								c.a[i][j]=sum;
+						}
+				}
+				return c;
+		}
 	//multiplies the matrix with a scalar 
 	//FORMAT SHOULD BE MAT*SCALAR
-	//the return type is always mat<double> no matter what	
+	//the return type is always mat<double> no matter what  
 	mat<double> operator*(const double d){
 		mat<double> c(row,col,true);
 		int i,j;
@@ -170,16 +186,16 @@ public:
 	}
 	//subtracts two matrix if possible
 	mat operator-(mat<T> &b){
-                if(row!=b.row and col!=b.col){
+				if(row!=b.row and col!=b.col){
 			cout<<"matrix addition not possible : unequal dimensions\n";
-                        throw "BadArgumentsDimensions";
+						throw "BadArgumentsDimensions";
 		}
-                mat<T> c(row,col,true);
-                int i,j;
-                for (i=0;i<row;i++){
-                        for (j=0;j<col;j++)c.a[i][j]=a[i][j]-b.a[i][j];
-                }return c;
-        }
+				mat<T> c(row,col,true);
+				int i,j;
+				for (i=0;i<row;i++){
+						for (j=0;j<col;j++)c.a[i][j]=a[i][j]-b.a[i][j];
+				}return c;
+		}
 
 	//inverts a matrix and stores in the param provided
 	void inverse(mat<double> &I){
@@ -244,7 +260,7 @@ public:
 			for (j=y0;j<y1;j++)r.a[i-x0][j-y0]=a[i][j];
 		}
 		return r;
-	}		
+	}       
 	double determinant(){
 		if(row!=col){
 			cout<<"not a square matrix\n";
@@ -295,7 +311,7 @@ void multiply(mat<Tp1> &a,mat<Tp2> &b,mat<Tp3> &c){
 		throw "BadArgumentsDimensions";
 	}
 	double sum=0;
-	if(c.row!=a.row || c.col!=b.col)c.reallocate(a.row,b.col);	
+	if(c.row!=a.row || c.col!=b.col)c.reallocate(a.row,b.col);  
 	int i,j,k;
 	for (i=0;i<a.row;i++){
 		for(j=0;j<b.col;j++){
@@ -359,5 +375,5 @@ void transpose(mat<Tp1> &m,mat<Tp2> &tr){
 			tr.a[j][i]=m.a[i][j];
 		}
 	}
-}	
+}
 #endif

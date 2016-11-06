@@ -18,6 +18,7 @@ public:
 };
 //fills the Image struct from Mat and vice-versa respectively
 //the boolean represents the rgb state rgb->true, grayscale->false
+void freeImage(Image &);
 void loadImage(cv::Mat &,Image &,bool);
 void loadMat(cv::Mat &,Image &,bool);
 #endif

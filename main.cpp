@@ -27,6 +27,8 @@ int main(){
 	mat<double> **weights=initNetwork(4,nodes);
 	mat<double> **bias=initBias(4,nodes);
 	loadWeights(weights,bias,listw,listb,4);
+	//writeWeights(weights,bias,listw,listb,4);
+	//return 0;
 
 	
 	//assigning the saved data

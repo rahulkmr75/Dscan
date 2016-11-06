@@ -3,9 +3,18 @@ objects= load.o matIP.o  nn.o fmat.o
 
 obj=main.o matIP.o nn.o fmat.o custommethods.o
 main:$(obj)
-	g++ -w $(obj) $(params)
+	g++ -w  $(obj) -o main $(params)
+
+obj2=test.o matIP.o nn.o fmat.o custommethods.o
+test:$(obj2)
+	g++ -w $(obj2) -o test $(params)
+
 main.o:main.cpp nn.h custommethods.h matIP.h mat.h
 	g++ -w -c main.cpp $(params)	
+
+test.o:test.cpp nn.h custommethods.h matIP.h mat.h
+	g++ -w -c test.cpp $(params)
+
 load: $(objects)
 	g++ -w $(objects) $(params)
 custommethods.o:custommethods.cpp mat.h matIP.h

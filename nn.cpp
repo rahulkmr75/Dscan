@@ -12,7 +12,7 @@ mat<double> **initNetwork(const int layers,const int *nodes){
 	weights[0]=new mat<double>(nodes[0],1);weights[0]->ones();
 	for (i=1;i<layers;i++){
 		weights[i]=new mat<double>(nodes[i],nodes[i-1]);
-		weights[i]->ones();
+		weights[i]->random(-1.0,1.0);
 	}
 	weights[3]->ones();
 	std::cout<<"network initialized\n";
@@ -23,8 +23,9 @@ mat<double> **initBias(const int layers,const int *nodes){
 	mat<double> **bias=new mat<double>*[layers];
 	for(int i=0;i<layers;i++){
 		bias[i]=new mat<double>(nodes[i],1);
-		bias[i]->ones();
+		bias[i]->random(-1.0,1.0);
 	}
+	bias[3]->zeros();
 	cout<<"bias initalized\n";
 	return bias;
 }

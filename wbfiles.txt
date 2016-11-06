@@ -1,8 +1,0 @@
-webi/layer_01.txt
-webi/layer_02.txt
-webi/layer_03.txt
-webi/layer_04.txt
-webi/bias_01.txt
-webi/bias_02.txt
-webi/bias_03.txt
-webi/bias_o4.txt

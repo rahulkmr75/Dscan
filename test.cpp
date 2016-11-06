@@ -37,7 +37,7 @@ int main(){
 
 	//char namergb[100],namedepth[100];
 	Mat imgrgb1=imread("test.jpg");
-	Size size(480,640);
+	Size size(640,480);
 	resize(imgrgb1,imgrgb1,size);
 	Mat depth=imgrgb1.clone();
 		
@@ -49,34 +49,30 @@ int main(){
 	loadImage(imgrgb1,m_imgrgb1,true);
 	loadImage(imgrgb2,m_imgrgb2,true);
 	loadImage(imgrgb3,m_imgrgb3,true);
-	loadImage(imgd1,m_imgd1,false);
+	loadImage(depth,m_imgd1,true);
 	cout<<"loaded image : "<<"\n";
 	
 	//computation part
 	mat<int> x(750,1,true);
-	for(int i=50;i<460;i++){
-		for(int j=50;j<620;j++){
+	for(int i=20;i<460;i++){
+		for(int j=20;j<620;j++){
 			//making a vector for input 
 			makeVector(m_imgrgb1,m_imgrgb2,m_imgrgb3,x,i,j);
-
-			computeOutputs(weights,output,bias,x,4);
-			if(output[3]->a[0][0]>255)output->a[0][0]=255;
-			else if(output[3]->a[0][0]<0)output->a[0][0]=0;
-			depth.at<uchar<(i,j)=output->a[0][0];
-			//output[1]->scale(0.00001);			
-			//output[0]->print();
-			//double err=output[3]->a[0][0]-m_imgd1.ch0.a[i][j];
 			
-			//backProp(weights,bias,output,x,err);
-			//cout<<"error : "<<err<<"\n";
-		}
+			computeOutputs(weights,output,bias,x,4);
+			if(output[3]->a[0][0]>255)output[3]->a[0][0]=255;
+			else if(output[3]->a[0][0]<0)output[3]->a[0][0]=0;
+			m_imgd1.ch0.a[i][j]=m_imgd1.ch1.a[i][j]=m_imgd1.ch2.a[i][j]=output[3]->a[0][0];
+    		}
 	cout<<"computation done on row : "<<i<<"\n";
-	//writeWeights(weights,bias,listw,listb,4);
 	}
-	//cout<<"stochastic descent completed on image : "<<namergb<<"\n";
-	//cout<<"writing files to webi/layer_0....\n";
-	//cout<<"writing files to webi/bias_0.....\n";
-	//writeWeights(weights,bias,listw,listb,4);
-	//cout<<"Done writing\nloading next image\n";			
+	loadMat(depth,m_imgd1,true);
+	namedWindow("depth");
+	imshow("depth",depth);
+	imshow("org1",imgrgb1);
+	imshow("org2",imgrgb2);
+	imshow("org3",imgrgb3);
+	waitKey(0);
+	cout<<"hey\n";
 	return 0;
 }

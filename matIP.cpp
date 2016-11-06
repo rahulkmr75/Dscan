@@ -3,6 +3,11 @@
 #include <iostream>
 #include "matIP.h"
 using namespace cv;
+void freeImage(Image &m){
+	m.ch0.free();
+	m.ch1.free();
+	m.ch2.free();
+}
 void loadMat(Mat &img,Image &m,bool rgb){
 	int r=m.ch0.row,c=m.ch0.col,i,j;
 	if(rgb){
