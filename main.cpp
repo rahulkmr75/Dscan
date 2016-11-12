@@ -45,6 +45,14 @@ int main(){
 	while(rgb_f>>namergb && depth_f>>namedepth){
 		Mat imgrgb1=imread(namergb);
 		Mat imgd1=imread(namedepth);
+		imshow("depth",imgd1);
+		cvtColor(imgd1,imgd1,CV_BGR2GRAY);
+		equalizeHist(imgd1,imgd1);
+		imshow("bgr",imgrgb1);
+		imshow("gray",imgd1);
+		char c=waitKey(0);
+		cout<<c;
+		return 0;
 		
 		//reducing the rgb images
 		pyrDown(imgrgb1,imgrgb2,Size(imgrgb1.cols/2,imgrgb1.rows/2));

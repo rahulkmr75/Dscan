@@ -36,7 +36,7 @@ int main(){
 	Mat imgrgb2,imgrgb3;
 
 	//char namergb[100],namedepth[100];
-	Mat imgrgb1=imread("test.jpg");
+	Mat imgrgb1=imread("test2.jpg");
 	Size size(640,480);
 	resize(imgrgb1,imgrgb1,size);
 	Mat depth=imgrgb1.clone();
@@ -63,16 +63,30 @@ int main(){
 			if(output[3]->a[0][0]>255)output[3]->a[0][0]=255;
 			else if(output[3]->a[0][0]<0)output[3]->a[0][0]=0;
 			m_imgd1.ch0.a[i][j]=m_imgd1.ch1.a[i][j]=m_imgd1.ch2.a[i][j]=output[3]->a[0][0];
+			break;
     		}
 	cout<<"computation done on row : "<<i<<"\n";
+	break;
 	}
 	loadMat(depth,m_imgd1,true);
 	namedWindow("depth");
+	cvtColor(depth,depth,CV_BGR2GRAY);
+	equalizeHist(depth,depth);
 	imshow("depth",depth);
 	imshow("org1",imgrgb1);
 	imshow("org2",imgrgb2);
 	imshow("org3",imgrgb3);
 	waitKey(0);
-	cout<<"hey\n";
+	for(int i=0;i<4;i++){
+	    weights[i]->free();
+	    bias[i]->free();
+	    output[i]->free();
+	}
+	freeImage(m_imgrgb1);
+	freeImage(m_imgrgb2);
+	freeImage(m_imgrgb3);
+	freeImage(m_imgd1);
+	delete nodes;
+
 	return 0;
 }

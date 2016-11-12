@@ -2,10 +2,10 @@
 #include <cmath>
 #include "mat.h"
 #include "fmat.cpp"
-#define alpha1 1.0e-07
-#define alpha2 1.0e-07
-#define alpha3 1.0e-07
-#define alpha4 1.0e-07
+#define alpha1 1.0e-09
+#define alpha2 1.0e-09
+#define alpha3 1.0e-09
+#define alpha4 1.0e-09
 mat<double> **initNetwork(const int layers,const int *nodes){
 	mat<double> **weights=new mat<double>*[layers];
 	int i,j;
